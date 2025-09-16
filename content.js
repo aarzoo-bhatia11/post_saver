@@ -1,28 +1,27 @@
-// This is a simplified example. You'll need to refine selectors for each site.
-document.addEventListener('mouseup', (event) => {
-  // Check if the user has selected text
-  const selectedText = window.getSelection().toString().trim();
-  if (selectedText.length > 0) {
-    // Send a message to the background script
-    chrome.runtime.sendMessage({
-      action: 'savePost',
-      url: window.location.href,
-      content: selectedText
-    });
-  }
-});
+let isSavingMode = false;
+let isDragging = false;
+let dragStartX = 0;
+let dragStartY = 0;
 
-// A better way would be to add a button to each post element
-// Example (pseudo-code):
-// const posts = document.querySelectorAll('.post-element-selector');
-// posts.forEach(post => {
-//   const saveButton = document.createElement('button');
-//   saveButton.innerText = 'Save Post';
-//   saveButton.addEventListener('click', () => {
-//     chrome.runtime.sendMessage({
-//       action: 'savePost',
-//       url: window.location.href
-//     });
-//   });
-//   post.appendChild(saveButton);
-// });
+// Create the floating save icon
+const saveIcon = document.createElement('div');
+saveIcon.textContent = '💾';
+saveIcon.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 2em;
+    cursor: grab;
+    z-index: 1000;
+    background: white;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+`;
+document.body.appendChild(saveIcon);
+
+// Add CSS for highlighting posts
