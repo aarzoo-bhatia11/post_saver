@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Saved Links - Clipboard Link Saver</title>
+  <link rel="stylesheet" href="tab.css">
+</head>
+<body>
+  <header>
+    <h1>Clipboard Link Saver</h1>
+    <nav>
+      <button id="add-folder-toggle" class="header-button">Add Folder</button>
+      <button id="options-btn" class="header-button">Settings</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="api-key-container" class="message-section"></section>
+
+    <section id="add-folder-section" style="display: none;">
+      <input type="text" id="new-folder-name" placeholder="New folder name (e.g., Development, Articles, Recipes)">
+      <button id="add-folder-btn">Create Folder</button>
+    </section>
+
+    <section class="folder-navigation">
+      <div id="folders-container">
+        <p>Create your first folder above!</p>
+      </div>
+    </section>
+
+    <section id="posts-display-section">
+      <h2 id="current-folder-title">All Saved Links</h2>
+      <div id="posts-container">
+        <p>No links saved yet. Copy a link and press <kbd>Ctrl+Shift+L</kbd> (Windows) or <kbd>Cmd+Shift+L</kbd> (Mac) to save.</p>
+        <p class="no-folder-message" style="display:none;">You need to create at least one folder before saving links (API key not configured for auto-categorization).</p>
+      </div>
+    </section>
+  </main>
+  
+  <script src="tab.js"></script>
+</body>
+</html>

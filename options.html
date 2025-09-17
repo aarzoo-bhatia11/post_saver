@@ -3,16 +3,72 @@
 <head>
   <title>Extension Options</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; }
-    input { width: 300px; padding: 8px; margin-top: 5px; }
-    button { padding: 10px 15px; margin-top: 10px; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      padding: 30px;
+      background-color: #f0f2f5;
+      color: #333;
+    }
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #007bff;
+    }
+    p {
+      color: #666;
+      font-size: 1rem;
+      margin-bottom: 25px;
+    }
+    input {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #status {
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #28a745;
+    }
   </style>
 </head>
 <body>
-  <h3>OpenAI API Key</h3>
-  <p>Enter your OpenAI API key to enable post categorization.</p>
-  <input type="text" id="apiKeyInput" placeholder="Enter your key here">
-  <button id="saveBtn">Save Key</button>
+  <div class="container">
+    <h3>OpenAI API Key</h3>
+    <p>
+      Enter your OpenAI API key below to enable automatic post categorization and tagging.
+    </p>
+    <input type="password" id="apiKeyInput" placeholder="sk-...">
+    <button id="saveBtn">Save Key</button>
+    <div id="status"></div>
+  </div>
   <script src="options.js"></script>
 </body>
 </html>
