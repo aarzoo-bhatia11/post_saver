@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
     allLinksBtn.classList.add('folder-item');
     if (currentSelectedFolder === 'All Links') allLinksBtn.classList.add('active');
     allLinksBtn.innerHTML = `
-      <span class="folder-icon">🔗</span>
+      <span class="folder-icon">📁</span>
       <span class="folder-name">All Links</span>
       <span class="folder-count">${getAllPosts(folders).length}</span>
     `;
@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <span class="folder-icon">📁</span>
           <span class="folder-name">${folderName}</span>
           <span class="folder-count">${folders[folderName].length}</span>
-          <span class="delete-folder-btn" data-folder-name="${folderName}">🗑️</span>
+          <span class="delete-folder-btn" data-folder-name="${folderName}">×</span>
         `;
         button.addEventListener('click', (e) => {
           if (!e.target.classList.contains('delete-folder-btn')) {
@@ -350,7 +350,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 li.className = 'link-card';
                 
                 const siteHostname = post.siteName || new URL(post.url).hostname;
-                const formattedDate = new Date(post.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                const formattedDate = new Date(post.timestamp).toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric', 
+                    year: 'numeric' 
+                });
                 const viewsText = (post.views || 0) > 0 ? `${post.views} view${post.views === 1 ? '' : 's'}` : '0 views';
                 
                 // Truncate description if it's too long
@@ -365,22 +369,22 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div class="link-url">${post.url}</div>
                             ${description ? `<div class="link-description" style="font-size: 0.9em; color: #666; margin-bottom: 12px; line-height: 1.4;">${description}</div>` : ''}
                             <div class="link-meta-info">
-                                <span class="meta-item calendar-icon">📅</span> <span class="meta-text">${formattedDate}</span>
-                                ${post.aiCategorized ? `<span class="meta-item cupcake-icon">🧁</span> <span class="meta-text">AI Categorized</span>` : ''}
-                                <span class="meta-item eye-icon">👀</span> <span class="meta-text">${viewsText}</span>
+                                <span class="meta-text">Saved: ${formattedDate}</span>
+                                ${post.aiCategorized ? `<span class="meta-text">• AI Categorized</span>` : ''}
+                                <span class="meta-text">• ${viewsText}</span>
                             </div>
                             <div class="link-tags">
                                 ${post.tags && post.tags.length > 0 ? post.tags.map(tag => `<span class="tag-pill">${tag}</span>`).join('') : ''}
                             </div>
                             <div class="link-actions">
                                 <button class="move-post-btn" data-post-id="${post.id}" data-current-folder="${post.folder}">
-                                    <span class="action-icon">📂</span> Move
+                                    Move
                                 </button>
                                 <button class="add-tags-btn" data-post-id="${post.id}" data-current-folder="${post.folder}" data-tags='${JSON.stringify(post.tags || [])}'>
-                                    <span class="action-icon">🏷️</span> Tags
+                                    Tags
                                 </button>
                                 <button class="delete-post-btn" data-post-id="${post.id}" data-current-folder="${post.folder}">
-                                    <span class="action-icon">🗑️</span> Delete
+                                    Delete
                                 </button>
                             </div>
                         </div>

@@ -134,7 +134,8 @@ input[type="text"]:focus {
 .folder-icon {
     font-size: 1.1em;
     margin-right: 10px;
-    color: #666;
+    color: #007bff;
+    font-weight: 500;
 }
 .folder-name {
     flex-grow: 1; /* Take up available space */
@@ -161,16 +162,25 @@ input[type="text"]:focus {
 .delete-folder-btn {
     font-size: 0.9em;
     margin-left: 15px;
-    color: #999;
+    color: #666;
     cursor: pointer;
     transition: color 0.2s ease;
     padding: 2px; /* Make clickable area larger */
+    font-weight: bold;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
 }
 .delete-folder-btn:hover {
     color: #dc3545; /* Red on hover */
+    background-color: rgba(220, 53, 69, 0.1);
 }
 .folder-item.active .delete-folder-btn:hover {
-    color: #ffcccc; /* Lighter red on active hover */
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .add-new-folder-button {
@@ -189,11 +199,6 @@ input[type="text"]:focus {
 .add-new-folder-button:hover {
     background-color: #e9ecef;
     border-color: #adb5bd;
-}
-.add-new-folder-button .button-icon {
-    width: 16px;
-    height: 16px;
-    margin-right: 8px;
 }
 
 .add-folder-input-area {
@@ -386,25 +391,17 @@ input[type="text"]:focus {
 
 .link-meta-info {
     font-size: 0.8em;
-    color: #888;
+    color: #666;
     margin-bottom: 12px;
     display: flex;
     align-items: center;
     flex-wrap: wrap; /* Allow wrapping for many meta items */
-    gap: 8px; /* Space between meta items */
-}
-.meta-item {
-    font-size: 1.1em;
-    vertical-align: middle;
+    gap: 4px; /* Space between meta items */
 }
 .meta-text {
     vertical-align: middle;
     font-weight: 500;
 }
-.calendar-icon { color: #6c757d; }
-.cupcake-icon { color: #fd7e14; } /* Orange for AI */
-.eye-icon { color: #28a745; } /* Green for views */
-
 
 .link-tags {
     margin-bottom: 16px;
@@ -439,10 +436,6 @@ input[type="text"]:focus {
     justify-content: center;
     font-weight: 500;
     min-height: 36px;
-}
-.link-actions .action-icon {
-    font-size: 1.1em;
-    margin-right: 5px;
 }
 
 /* Specific button colors */
