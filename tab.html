@@ -1,41 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Saved Links - Clipboard Link Saver</title>
-  <link rel="stylesheet" href="tab.css">
-</head>
+  <title>Clipboard Link Saver</title>
+  <link rel="stylesheet" href="popup.css"> </head>
 <body>
-  <header>
-    <h1>Clipboard Link Saver</h1>
-    <nav>
-      <button id="add-folder-toggle" class="header-button">Add Folder</button>
-      <button id="options-btn" class="header-button">Settings</button>
-    </nav>
-  </header>
-
-  <main>
-    <section id="api-key-container" class="message-section"></section>
-
-    <section id="add-folder-section" style="display: none;">
-      <input type="text" id="new-folder-name" placeholder="New folder name (e.g., Development, Articles, Recipes)">
-      <button id="add-folder-btn">Create Folder</button>
-    </section>
-
-    <section class="folder-navigation">
-      <div id="folders-container">
-        <p>Create your first folder above!</p>
+  <div class="app-container">
+    <aside class="sidebar">
+      <h2 class="sidebar-title">Folders</h2>
+      <div id="folders-container" class="folder-list">
+        <p>Loading folders...</p>
       </div>
-    </section>
-
-    <section id="posts-display-section">
-      <h2 id="current-folder-title">All Saved Links</h2>
-      <div id="posts-container">
-        <p>No links saved yet. Copy a link and press <kbd>Ctrl+Shift+L</kbd> (Windows) or <kbd>Cmd+Shift+L</kbd> (Mac) to save.</p>
-        <p class="no-folder-message" style="display:none;">You need to create at least one folder before saving links (API key not configured for auto-categorization).</p>
+      <button id="add-folder-button" class="add-new-folder-button">
+        <img src="images/icon16.png" alt="Add" class="button-icon">
+        <span>Add New Folder</span>
+      </button>
+      <div id="add-folder-input-area" class="add-folder-input-area" style="display:none;">
+        <input type="text" id="new-folder-name" placeholder="New folder name">
+        <button id="create-folder-btn" class="create-folder-button">Create</button>
       </div>
-    </section>
-  </main>
-  
+    </aside>
+
+    <main class="content-area">
+      <div id="api-key-status" class="api-key-status-bar">
+        AI categorization disabled. <a href="#" id="configure-api-key-link">Configure API key</a> to enable automatic folder suggestions.
+      </div>
+
+      <div class="header-controls">
+        <div class="search-bar">
+          <input type="text" id="search-input" placeholder="Search your saved links...">
+          <button id="search-button">🔍</button>
+        </div>
+        <div class="view-options">
+          <button id="list-view-btn" class="view-toggle-button">List</button>
+          <button id="grid-view-btn" class="view-toggle-button active">Grid</button>
+        </div>
+      </div>
+
+      <div class="links-summary">
+        <span id="total-links-count">0 total links</span> • 
+        <span id="folder-count">0 folders</span> • 
+        <span id="last-saved-time">Last saved: Never</span>
+      </div>
+
+      <div id="posts-container" class="link-grid">
+        <p class="initial-message">No links saved yet. Copy a link and press <kbd>Ctrl+Shift+L</kbd> (Windows) or <kbd>Cmd+Shift+L</kbd> (Mac) to save.</p>
+        <p class="no-ai-folders-message" style="display:none;">Create at least one folder before saving links (AI categorization is off or no folders are defined).</p>
+      </div>
+    </main>
+  </div>
+
+  <div id="move-to-dropdown" class="move-to-dropdown" style="display: none;">
+      <div class="dropdown-header">Move to:</div>
+      <div id="move-to-folder-options" class="dropdown-options">
+          </div>
+      <div class="dropdown-footer">
+          <button id="move-cancel-btn" class="dropdown-button">Cancel</button>
+      </div>
+  </div>
+
+  <div id="add-tags-modal" class="add-tags-modal" style="display: none;">
+      <div class="modal-content">
+          <h3>Add Tags</h3>
+          <input type="text" id="tag-input" placeholder="Enter tags, separated by commas">
+          <div class="modal-actions">
+              <button id="save-tags-btn">Save</button>
+              <button id="cancel-tags-btn" class="secondary-button">Cancel</button>
+          </div>
+      </div>
+  </div>
+
   <script src="tab.js"></script>
 </body>
 </html>

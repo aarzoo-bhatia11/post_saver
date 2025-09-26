@@ -1,26 +1,25 @@
 {
   "manifest_version": 3,
   "name": "Clipboard Link Saver",
-  "version": "1.0",
-  "description": "Save any link copied to your clipboard with a keyboard shortcut, and categorize it, viewing them in a sleek new tab.",
+  "version": "1.5",
+  "description": "Save, organize, and view links from your clipboard with a powerful, AI-assisted interface.",
   "permissions": [
     "storage",
-    "clipboardRead",
+    "clipboardRead", 
     "notifications",
     "scripting",
     "activeTab"
   ],
   "host_permissions": [
-    "<all_urls>",
+    "<all_urls>", 
     "https://api.openai.com/*"
   ],
   "background": {
     "service_worker": "background.js"
   },
   "action": {
-    "default_title": "Open Saved Links" 
+    "default_title": "Open Saved Links"
   },
-  "options_page": "options.html",
   "commands": {
     "save_clipboard_link": {
       "suggested_key": {

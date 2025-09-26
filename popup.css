@@ -1,0 +1,556 @@
+/* popup.css (for the main tab UI) */
+
+/* --- Base Styles --- */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f7; /* Apple-like light background */
+    color: #1d1d1f; /* Apple-like dark text */
+    min-width: 900px; /* Ensure enough space for the layout */
+    font-size: 14px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    color: #1d1d1f;
+    margin-top: 0;
+}
+
+a {
+    color: #007bff; /* Standard link blue */
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+button {
+    cursor: pointer;
+    background-color: #007bff; /* Blue for primary actions */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    -webkit-appearance: none; /* Reset button styling for consistency */
+    -moz-appearance: none;
+    appearance: none;
+}
+button:hover {
+    background-color: #0056b3;
+}
+button:active {
+    opacity: 0.8;
+}
+.secondary-button {
+    background-color: #6c757d;
+}
+.secondary-button:hover {
+    background-color: #5a6268;
+}
+
+input[type="text"] {
+    padding: 10px;
+    border: 1px solid #d2d2d7;
+    border-radius: 6px;
+    font-size: 1em;
+    box-sizing: border-box; /* Include padding/border in width */
+    -webkit-appearance: none; /* Reset input styling */
+    -moz-appearance: none;
+    appearance: none;
+}
+input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* --- App Container Layout --- */
+.app-container {
+    display: flex;
+    min-height: 100vh; /* Full viewport height */
+    background-color: #f5f5f7;
+}
+
+/* --- Sidebar (Left Navigation) --- */
+.sidebar {
+    width: 280px; /* Fixed width for the sidebar */
+    background-color: #ffffff;
+    border-right: 1px solid #d2d2d7;
+    padding: 20px;
+    box-shadow: 1px 0 3px rgba(0,0,0,0.03);
+    flex-shrink: 0; /* Prevent sidebar from shrinking */
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-title {
+    font-size: 1.6em;
+    margin-bottom: 20px;
+    color: #1d1d1f;
+}
+
+.folder-list {
+    flex-grow: 1; /* Allows folder list to take available space */
+    margin-bottom: 20px;
+}
+
+.folder-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    background-color: transparent; /* Default inactive state */
+    color: #1d1d1f;
+    text-align: left;
+    width: 100%;
+    border: none;
+    font-size: 1em;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    justify-content: flex-start; /* Align content to the left */
+}
+.folder-item:hover {
+    background-color: #e5e5ea;
+}
+.folder-item.active {
+    background-color: #007bff; /* Active folder is blue */
+    color: white;
+}
+.folder-item.active .folder-icon,
+.folder-item.active .folder-count,
+.folder-item.active .delete-folder-btn {
+    color: white; /* Ensure icons and counts are white in active state */
+}
+
+.folder-icon {
+    font-size: 1.1em;
+    margin-right: 10px;
+    color: #666;
+}
+.folder-name {
+    flex-grow: 1; /* Take up available space */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.folder-count {
+    font-size: 0.9em;
+    font-weight: 500;
+    margin-left: 10px;
+    color: #666;
+}
+.delete-folder-btn {
+    font-size: 0.9em;
+    margin-left: 15px;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    padding: 2px; /* Make clickable area larger */
+}
+.delete-folder-btn:hover {
+    color: #dc3545; /* Red on hover */
+}
+.folder-item.active .delete-folder-btn:hover {
+    color: #ffcccc; /* Lighter red on active hover */
+}
+
+.add-new-folder-button {
+    background-color: #e5e5ea;
+    color: #1d1d1f;
+    border: 1px solid #d2d2d7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px;
+    width: 100%;
+    margin-top: 10px;
+}
+.add-new-folder-button:hover {
+    background-color: #d2d2d7;
+}
+.add-new-folder-button .button-icon {
+    filter: invert(10%); /* Darken icon for light background */
+    margin-right: 8px;
+}
+
+.add-folder-input-area {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+.add-folder-input-area input {
+    width: 100%;
+}
+.add-folder-input-area .create-folder-button {
+    background-color: #28a745;
+    width: 100%;
+}
+.add-folder-input-area .create-folder-button:hover {
+    background-color: #218838;
+}
+
+
+/* --- Content Area (Right Side) --- */
+.content-area {
+    flex-grow: 1; /* Take all remaining space */
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.api-key-status-bar {
+    background-color: #fff3cd; /* Light yellow for warning */
+    border: 1px solid #ffeeba;
+    color: #856404;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    font-size: 0.95em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.api-key-status-bar a {
+    color: #856404;
+    font-weight: bold;
+    text-decoration: underline;
+}
+.api-key-status-bar a:hover {
+    color: #665003;
+}
+
+.header-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.search-bar {
+    display: flex;
+    gap: 10px;
+    flex-grow: 1;
+    margin-right: 20px;
+}
+.search-bar input {
+    flex-grow: 1;
+    width: auto; /* Override default width */
+    max-width: 400px;
+}
+.search-bar button {
+    background-color: #e5e5ea;
+    color: #1d1d1f;
+    border: 1px solid #d2d2d7;
+    padding: 10px 15px;
+}
+.search-bar button:hover {
+    background-color: #d2d2d7;
+}
+
+.view-options {
+    display: flex;
+    border: 1px solid #d2d2d7;
+    border-radius: 6px;
+    overflow: hidden;
+}
+.view-toggle-button {
+    background-color: transparent;
+    color: #1d1d1f;
+    border: none;
+    border-radius: 0;
+    padding: 8px 15px;
+}
+.view-toggle-button.active {
+    background-color: #007bff;
+    color: white;
+}
+.view-toggle-button:hover:not(.active) {
+    background-color: #e5e5ea;
+}
+
+.links-summary {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e5e5ea;
+}
+
+.link-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Responsive cards */
+    gap: 20px;
+}
+
+.link-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.link-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.link-card-content {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.link-image {
+    width: calc(100% + 30px); /* Extend beyond padding for full width image */
+    height: 180px;
+    object-fit: cover;
+    margin: -15px -15px 15px -15px; /* Adjust to sit flush with card edges */
+    border-bottom: 1px solid #eee;
+}
+
+.link-details {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.link-title {
+    font-size: 1.2em;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #1d1d1f;
+    line-height: 1.3;
+    display: block;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.link-title:hover {
+    color: #007bff;
+}
+
+.link-url {
+    font-size: 0.85em;
+    color: #666;
+    margin-bottom: 10px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.link-meta-info {
+    font-size: 0.8em;
+    color: #888;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping for many meta items */
+    gap: 8px; /* Space between meta items */
+}
+.meta-item {
+    font-size: 1.1em;
+    vertical-align: middle;
+}
+.meta-text {
+    vertical-align: middle;
+}
+.calendar-icon { color: #888; }
+.cupcake-icon { color: #f28a3f; } /* A warm color for AI */
+.eye-icon { color: #5cb85c; } /* Green for views */
+
+
+.link-tags {
+    margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.tag-pill {
+    background-color: #e5e5ea;
+    color: #555;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8em;
+    white-space: nowrap;
+}
+
+.link-actions {
+    margin-top: auto; /* Push actions to the bottom */
+    display: flex;
+    flex-wrap: wrap; /* Allow buttons to wrap */
+    gap: 8px;
+    justify-content: space-between;
+}
+.link-actions button {
+    flex: 1 1 auto; /* Allow buttons to grow and shrink */
+    padding: 8px 10px;
+    font-size: 0.85em;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.link-actions .action-icon {
+    font-size: 1.1em;
+    margin-right: 5px;
+}
+
+/* Specific button colors */
+.link-actions .move-post-btn {
+    background-color: #6c757d; /* Gray */
+}
+.link-actions .move-post-btn:hover {
+    background-color: #5a6268;
+}
+.link-actions .add-tags-btn {
+    background-color: #007bff; /* Blue */
+}
+.link-actions .add-tags-btn:hover {
+    background-color: #0056b3;
+}
+.link-actions .delete-post-btn {
+    background-color: #dc3545; /* Red */
+}
+.link-actions .delete-post-btn:hover {
+    background-color: #c82333;
+}
+
+/* --- Initial Messages (No links, No folders) --- */
+.initial-message, .no-ai-folders-message {
+    grid-column: 1 / -1; /* Span all columns in grid */
+    text-align: center;
+    font-size: 1.1em;
+    color: #666;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* --- Move To Dropdown --- */
+.move-to-dropdown {
+    position: absolute; /* Will be positioned by JS */
+    background-color: #ffffff;
+    border: 1px solid #d2d2d7;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    min-width: 180px;
+    padding: 10px;
+}
+.dropdown-header {
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: #1d1d1f;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+.dropdown-options {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+.dropdown-option {
+    display: block;
+    width: 100%;
+    padding: 8px 10px;
+    text-align: left;
+    background-color: transparent;
+    border: none;
+    color: #1d1d1f;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+.dropdown-option:hover {
+    background-color: #e5e5ea;
+}
+.dropdown-footer {
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    text-align: right;
+}
+.dropdown-button {
+    background-color: #6c757d;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.9em;
+}
+.dropdown-button:hover {
+    background-color: #5a6268;
+}
+.no-other-folders {
+    padding: 8px 10px;
+    color: #666;
+    font-style: italic;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+/* --- Add Tags Modal --- */
+.add-tags-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    width: 400px;
+    max-width: 90%;
+    text-align: center;
+}
+.modal-content h3 {
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+.modal-content input {
+    width: 100%;
+    margin-bottom: 20px;
+}
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+.modal-actions button {
+    padding: 10px 20px;
+}
+
+/* --- Keyboard Shortcut Styling --- */
+kbd {
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px white inset;
+    color: #333;
+    display: inline-block;
+    font-family: monospace;
+    font-size: 0.9em;
+    font-weight: 700;
+    line-height: 1;
+    padding: 2px 4px;
+    white-space: nowrap;
+}
