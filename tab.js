@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const totalLinksCountSpan = document.getElementById('total-links-count');
   const folderCountSpan = document.getElementById('folder-count');
   const lastSavedTimeSpan = document.getElementById('last-saved-time');
+  const searchInput = document.getElementById('search-input');
+  const searchButton = document.getElementById('search-button');
   const initialMessage = document.querySelector('.initial-message');
   const noAIFoldersMessage = document.querySelector('.no-ai-folders-message');
 
@@ -26,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentSelectedFolder = 'All Links';
   let activeMovePost = null;
   let activeTagPost = null;
+  let currentSearchTerm = '';
 
   // --- Initial Render and Setup ---
   checkApiKeyStatus();
@@ -58,6 +61,25 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     } else if (folderName === 'All Links' || folderName === 'Uncategorized') {
         alert('This is a reserved name. Please choose a different folder name.');
+    }
+  });
+
+  // Search functionality
+  searchInput.addEventListener('input', (e) => {
+    currentSearchTerm = e.target.value.trim().toLowerCase();
+    renderAllData();
+  });
+
+  searchButton.addEventListener('click', () => {
+    currentSearchTerm = searchInput.value.trim().toLowerCase();
+    renderAllData();
+  });
+
+  // Clear search when Enter is pressed on empty input
+  searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      currentSearchTerm = searchInput.value.trim().toLowerCase();
+      renderAllData();
     }
   });
 
@@ -301,6 +323,16 @@ document.addEventListener('DOMContentLoaded', () => {
         totalLinksCountSpan.textContent = `${getAllPosts(folders).length} total links`;
         folderCountSpan.textContent = `${Object.keys(folders).length} folders`;
 
+        // Apply search filter if there's a search term
+        if (currentSearchTerm) {
+            postsToDisplay = postsToDisplay.filter(post => {
+                const titleMatch = (post.title || '').toLowerCase().includes(currentSearchTerm);
+                const urlMatch = post.url.toLowerCase().includes(currentSearchTerm);
+                const tagsMatch = (post.tags || []).some(tag => tag.toLowerCase().includes(currentSearchTerm));
+                return titleMatch || urlMatch || tagsMatch;
+            });
+        }
+
         const allPostsFlat = getAllPosts(folders);
         if (allPostsFlat.length > 0) {
             allPostsFlat.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
@@ -319,28 +351,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 const siteHostname = post.siteName || new URL(post.url).hostname;
                 const formattedDate = new Date(post.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-                const viewsText = (post.views || 0) > 0 ? ` • Viewed ${post.views} time${post.views === 1 ? '' : 's'}` : '';
+                const viewsText = (post.views || 0) > 0 ? `${post.views} view${post.views === 1 ? '' : 's'}` : '0 views';
+                
+                // Truncate description if it's too long
+                const description = post.description ? 
+                    (post.description.length > 120 ? post.description.substring(0, 120) + '...' : post.description) : '';
 
                 li.innerHTML = `
                     <div class="link-card-content">
                         ${post.image ? `<img src="${post.image}" alt="${post.title}" class="link-image">` : ''}
                         <div class="link-details">
                             <a href="${post.url}" target="_blank" class="link-title" data-post-id="${post.id}">${post.title || post.url}</a>
-                            <a href="${post.url}" target="_blank" class="link-url">${siteHostname}</a>
+                            <div class="link-url">${post.url}</div>
+                            ${description ? `<div class="link-description" style="font-size: 0.9em; color: #666; margin-bottom: 12px; line-height: 1.4;">${description}</div>` : ''}
                             <div class="link-meta-info">
-                                <span class="meta-item calendar-icon">📅</span> <span class="meta-text">Saved: ${formattedDate}</span>
+                                <span class="meta-item calendar-icon">📅</span> <span class="meta-text">${formattedDate}</span>
                                 ${post.aiCategorized ? `<span class="meta-item cupcake-icon">🧁</span> <span class="meta-text">AI Categorized</span>` : ''}
-                                ${viewsText ? `<span class="meta-item eye-icon">👀</span> <span class="meta-text">${viewsText.trim()}</span>` : ''}
+                                <span class="meta-item eye-icon">👀</span> <span class="meta-text">${viewsText}</span>
                             </div>
                             <div class="link-tags">
                                 ${post.tags && post.tags.length > 0 ? post.tags.map(tag => `<span class="tag-pill">${tag}</span>`).join('') : ''}
                             </div>
                             <div class="link-actions">
                                 <button class="move-post-btn" data-post-id="${post.id}" data-current-folder="${post.folder}">
-                                    <span class="action-icon">📂</span> Move to...
+                                    <span class="action-icon">📂</span> Move
                                 </button>
                                 <button class="add-tags-btn" data-post-id="${post.id}" data-current-folder="${post.folder}" data-tags='${JSON.stringify(post.tags || [])}'>
-                                    <span class="action-icon">🏷️</span> Add Tags
+                                    <span class="action-icon">🏷️</span> Tags
                                 </button>
                                 <button class="delete-post-btn" data-post-id="${post.id}" data-current-folder="${post.folder}">
                                     <span class="action-icon">🗑️</span> Delete
@@ -353,7 +390,10 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             addLinkActionListeners(folders);
         } else {
-            postsContainer.innerHTML = `<p class="initial-message">No links in "${currentSelectedFolder}". Copy a link and press <kbd>Ctrl+Shift+L</kbd> (Windows) or <kbd>Cmd+Shift+L</kbd> (Mac) to save.</p>`;
+            const message = currentSearchTerm ? 
+                `No links found matching "${currentSearchTerm}". Try a different search term.` :
+                `No links in "${currentSelectedFolder}". Copy a link and press <kbd>Ctrl+Shift+L</kbd> (Windows) or <kbd>Cmd+Shift+L</kbd> (Mac) to save.`;
+            postsContainer.innerHTML = `<p class="initial-message">${message}</p>`;
             if (Object.keys(folders).length === 0) {
                  noAIFoldersMessage.style.display = 'block';
                  postsContainer.querySelector('p:last-of-type').style.display = 'none';
