@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extension Design Preview</title>
+    <style>
+        /* Base Styles */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #000000;
+            font-size: 14px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 500;
+            color: #000000;
+            margin-top: 0;
+        }
+
+        a {
+            color: #000000;
+            text-decoration: underline;
+            transition: opacity 0.2s ease;
+        }
+        a:hover {
+            opacity: 0.7;
+        }
+
+        button {
+            cursor: pointer;
+            background-color: #000000;
+            color: #ffffff;
+            border: 1px solid #000000;
+            padding: 8px 16px;
+            border-radius: 0;
+            font-size: 0.9em;
+            font-weight: 400;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+        button:hover {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        input[type="text"] {
+            padding: 8px 12px;
+            border: 1px solid #000000;
+            border-radius: 0;
+            font-size: 0.9em;
+            box-sizing: border-box;
+            font-family: inherit;
+            background-color: #ffffff;
+            color: #000000;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #000000;
+            box-shadow: inset 0 0 0 1px #000000;
+        }
+
+        /* App Container Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+            background-color: #ffffff;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background-color: #ffffff;
+            border-right: 1px solid #000000;
+            padding: 24px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-title {
+            font-size: 1.4em;
+            font-weight: 500;
+            margin-bottom: 24px;
+            color: #000000;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .folder-list {
+            flex-grow: 1;
+            margin-bottom: 24px;
+        }
+
+        .folder-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            margin-bottom: 4px;
+            background-color: transparent;
+            color: #000000;
+            text-align: left;
+            width: 100%;
+            border: none;
+            font-size: 0.9em;
+            transition: all 0.2s ease;
+            justify-content: space-between;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .folder-item:hover {
+            background-color: #f8f8f8;
+        }
+        .folder-item.active {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        .folder-name {
+            flex-grow: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 400;
+        }
+
+        .folder-count {
+            font-size: 0.8em;
+            font-weight: 400;
+            margin-left: 12px;
+            color: #666666;
+            background-color: #f0f0f0;
+            padding: 2px 8px;
+            min-width: 20px;
+            text-align: center;
+        }
+        .folder-item.active .folder-count {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .delete-folder-btn {
+            font-size: 0.8em;
+            margin-left: 12px;
+            color: #666666;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            padding: 4px;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid transparent;
+        }
+        .delete-folder-btn:hover {
+            color: #000000;
+            border-color: #000000;
+        }
+
+        .add-new-folder-button {
+            background-color: #ffffff;
+            color: #000000;
+            border: 1px solid #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            width: 100%;
+            margin-top: 12px;
+            font-weight: 400;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.8em;
+        }
+        .add-new-folder-button:hover {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        /* Content Area */
+        .content-area {
+            flex-grow: 1;
+            padding: 24px 40px;
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+        }
+
+        .api-key-status-bar {
+            background-color: #f8f8f8;
+            border: 1px solid #000000;
+            color: #000000;
+            padding: 12px 20px;
+            margin-bottom: 24px;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .api-key-status-bar a {
+            color: #000000;
+            font-weight: 500;
+            text-decoration: underline;
+        }
+
+        .header-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            gap: 20px;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 0;
+            flex-grow: 1;
+            max-width: 500px;
+        }
+        .search-bar input {
+            flex-grow: 1;
+            border-right: none;
+            padding: 12px 16px;
+            font-size: 0.9em;
+        }
+        .search-bar button {
+            background-color: #000000;
+            color: #ffffff;
+            border: 1px solid #000000;
+            padding: 12px 16px;
+            min-width: 80px;
+        }
+
+        .view-options {
+            display: flex;
+            border: 1px solid #000000;
+            overflow: hidden;
+            background-color: #ffffff;
+        }
+        .view-toggle-button {
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            padding: 8px 16px;
+            font-weight: 400;
+            border-right: 1px solid #000000;
+        }
+        .view-toggle-button:last-child {
+            border-right: none;
+        }
+        .view-toggle-button.active {
+            background-color: #000000;
+            color: #ffffff;
+        }
+        .view-toggle-button:hover:not(.active) {
+            background-color: #f8f8f8;
+        }
+
+        .links-summary {
+            font-size: 0.9em;
+            color: #666666;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #000000;
+            font-weight: 400;
+        }
+
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 24px;
+        }
+
+        .link-card {
+            background-color: #ffffff;
+            box-shadow: none;
+            border: 1px solid #000000;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.2s ease;
+        }
+        .link-card:hover {
+            box-shadow: 4px 4px 0 #000000;
+            transform: translate(-2px, -2px);
+        }
+
+        .link-card-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .link-image {
+            width: calc(100% + 40px);
+            height: 160px;
+            object-fit: cover;
+            margin: -20px -20px 16px -20px;
+            border-bottom: 1px solid #000000;
+            filter: grayscale(100%);
+        }
+
+        .link-details {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .link-title {
+            font-size: 1.1em;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #000000;
+            line-height: 1.3;
+            display: block;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-decoration: none;
+        }
+        .link-title:hover {
+            text-decoration: underline;
+        }
+
+        .link-url {
+            font-size: 0.8em;
+            color: #666666;
+            margin-bottom: 12px;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 400;
+            background-color: #f8f8f8;
+            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
+            font-family: monospace;
+        }
+
+        .link-description {
+            font-size: 0.9em;
+            color: #666666;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .link-meta-info {
+            font-size: 0.8em;
+            color: #666666;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .link-tags {
+            margin-bottom: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .tag-pill {
+            background-color: #f0f0f0;
+            color: #000000;
+            padding: 4px 8px;
+            border: 1px solid #000000;
+            font-size: 0.7em;
+            font-weight: 400;
+            white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .link-actions {
+            margin-top: auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .link-actions button {
+            flex: 1;
+            padding: 8px 12px;
+            font-size: 0.8em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 400;
+            min-height: 32px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .move-post-btn, .add-tags-btn {
+            background-color: #ffffff;
+            color: #000000;
+            border: 1px solid #000000;
+        }
+        .move-post-btn:hover, .add-tags-btn:hover {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        .delete-post-btn {
+            background-color: #000000;
+            color: #ffffff;
+            border: 1px solid #000000;
+        }
+        .delete-post-btn:hover {
+            background-color: #ffffff;
+            color: #000000;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <h2 class="sidebar-title">Folders</h2>
+            <div class="folder-list">
+                <button class="folder-item active">
+                    <span class="folder-name">All Links</span>
+                    <span class="folder-count">3</span>
+                </button>
+                <button class="folder-item">
+                    <span class="folder-name">Business</span>
+                    <span class="folder-count">2</span>
+                    <span class="delete-folder-btn">×</span>
+                </button>
+                <button class="folder-item">
+                    <span class="folder-name">Development</span>
+                    <span class="folder-count">1</span>
+                    <span class="delete-folder-btn">×</span>
+                </button>
+            </div>
+            <button class="add-new-folder-button">
+                Add New Folder
+            </button>
+        </aside>
+
+        <main class="content-area">
+            <div class="api-key-status-bar">
+                AI categorization disabled. <a href="#">Configure API key</a> to enable automatic folder suggestions.
+            </div>
+
+            <div class="header-controls">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search your saved links...">
+                    <button>Search</button>
+                </div>
+                <div class="view-options">
+                    <button class="view-toggle-button">List</button>
+                    <button class="view-toggle-button active">Grid</button>
+                </div>
+            </div>
+
+            <div class="links-summary">
+                3 total links | 2 folders | Last saved 2 hours ago
+            </div>
+
+            <div class="link-grid">
+                <div class="link-card">
+                    <div class="link-card-content">
+                        <img src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Remote Work" class="link-image">
+                        <div class="link-details">
+                            <a href="#" class="link-title">The Future of Remote Work: Trends and Predictions for 2025</a>
+                            <div class="link-url">https://example.com/remote-work-trends-2025</div>
+                            <div class="link-description">
+                                Explore the latest trends in remote work and what to expect in 2025. From hybrid models to new collaboration tools, discover how the workplace is evolving.
+                            </div>
+                            <div class="link-meta-info">
+                                <span>Saved Dec 16, 2024</span>
+                                <span>AI Categorized</span>
+                                <span>3 views</span>
+                            </div>
+                            <div class="link-tags">
+                                <span class="tag-pill">Business</span>
+                                <span class="tag-pill">Remote Work</span>
+                                <span class="tag-pill">Productivity</span>
+                            </div>
+                            <div class="link-actions">
+                                <button class="move-post-btn">Move</button>
+                                <button class="add-tags-btn">Tags</button>
+                                <button class="delete-post-btn">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="link-card">
+                    <div class="link-card-content">
+                        <div class="link-details">
+                            <a href="#" class="link-title">LinkedIn Job Posting</a>
+                            <div class="link-url">https://www.linkedin.com/jobs/view/4264051598</div>
+                            <div class="link-meta-info">
+                                <span>Saved Sep 18, 2025</span>
+                                <span>0 views</span>
+                            </div>
+                            <div class="link-actions">
+                                <button class="move-post-btn">Move</button>
+                                <button class="add-tags-btn">Tags</button>
+                                <button class="delete-post-btn">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="link-card">
+                    <div class="link-card-content">
+                        <img src="https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Development" class="link-image">
+                        <div class="link-details">
+                            <a href="#" class="link-title">CSAT on ticket | Automate | Snap-ins | DevRev</a>
+                            <div class="link-url">https://devrev.ai/docs/automations/csat-tickets#configuration</div>
+                            <div class="link-description">
+                                CSAT on ticket offers a simplified approach to measure customer satisfaction level for the ticket resolved with the help of automation.
+                            </div>
+                            <div class="link-meta-info">
+                                <span>Saved Sep 26, 2025</span>
+                                <span>0 views</span>
+                            </div>
+                            <div class="link-actions">
+                                <button class="move-post-btn">Move</button>
+                                <button class="add-tags-btn">Tags</button>
+                                <button class="delete-post-btn">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
