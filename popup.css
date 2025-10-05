@@ -1,338 +1,328 @@
-/* popup.css (for the main tab UI) */
+/* popup.css - Minimalistic Black and White Design */
 
 /* --- Base Styles --- */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f9fa; /* Clean light background */
-    color: #1d1d1f; /* Apple-like dark text */
-    min-width: 900px; /* Ensure enough space for the layout */
+    background-color: #ffffff;
+    color: #000000;
+    min-width: 900px;
     font-size: 14px;
     line-height: 1.5;
+    font-weight: 400;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-weight: 600;
-    color: #1d1d1f;
+    font-weight: 500;
+    color: #000000;
     margin-top: 0;
 }
 
 a {
-    color: #007bff; /* Standard link blue */
-    text-decoration: none;
-    transition: color 0.2s ease;
+    color: #000000;
+    text-decoration: underline;
+    transition: opacity 0.2s ease;
 }
 a:hover {
-    color: #0056b3;
+    opacity: 0.7;
 }
 
 button {
     cursor: pointer;
-    background-color: #007bff; /* Blue for primary actions */
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 8px;
+    background-color: #000000;
+    color: #ffffff;
+    border: 1px solid #000000;
+    padding: 8px 16px;
+    border-radius: 0;
     font-size: 0.9em;
-    font-weight: 500;
-    transition: background-color 0.2s ease, opacity 0.2s ease;
-    -webkit-appearance: none; /* Reset button styling for consistency */
-    -moz-appearance: none;
-    appearance: none;
+    font-weight: 400;
+    transition: all 0.2s ease;
+    font-family: inherit;
 }
 button:hover {
-    background-color: #0056b3;
+    background-color: #ffffff;
+    color: #000000;
 }
 button:active {
     opacity: 0.8;
 }
 .secondary-button {
-    background-color: #6c757d;
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #000000;
 }
 .secondary-button:hover {
-    background-color: #5a6268;
+    background-color: #000000;
+    color: #ffffff;
 }
 
 input[type="text"] {
-    padding: 10px;
-    border: 1px solid #d2d2d7;
-    border-radius: 8px;
-    font-size: 1em;
-    box-sizing: border-box; /* Include padding/border in width */
-    -webkit-appearance: none; /* Reset input styling */
-    -moz-appearance: none;
-    appearance: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    padding: 8px 12px;
+    border: 1px solid #000000;
+    border-radius: 0;
+    font-size: 0.9em;
+    box-sizing: border-box;
+    font-family: inherit;
+    background-color: #ffffff;
+    color: #000000;
 }
 input[type="text"]:focus {
     outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    border-color: #000000;
+    box-shadow: inset 0 0 0 1px #000000;
 }
 
 /* --- App Container Layout --- */
 .app-container {
     display: flex;
-    min-height: 100vh; /* Full viewport height */
-    background-color: #f8f9fa;
+    min-height: 100vh;
+    background-color: #ffffff;
 }
 
 /* --- Sidebar (Left Navigation) --- */
 .sidebar {
-    width: 280px; /* Fixed width for the sidebar */
+    width: 280px;
     background-color: #ffffff;
-    border-right: 1px solid #d2d2d7;
-    padding: 20px;
-    box-shadow: 2px 0 8px rgba(0,0,0,0.05);
-    flex-shrink: 0; /* Prevent sidebar from shrinking */
+    border-right: 1px solid #000000;
+    padding: 24px;
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
 }
 
 .sidebar-title {
-    font-size: 1.6em;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: #1d1d1f;
+    font-size: 1.4em;
+    font-weight: 500;
+    margin-bottom: 24px;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .folder-list {
-    flex-grow: 1; /* Allows folder list to take available space */
-    margin-bottom: 20px;
+    flex-grow: 1;
+    margin-bottom: 24px;
 }
 
 .folder-item {
     display: flex;
     align-items: center;
-    padding: 12px 15px;
-    margin-bottom: 8px;
-    border-radius: 8px;
-    background-color: transparent; /* Default inactive state */
-    color: #1d1d1f;
+    padding: 12px 0;
+    margin-bottom: 4px;
+    border-radius: 0;
+    background-color: transparent;
+    color: #000000;
     text-align: left;
     width: 100%;
     border: none;
-    font-size: 1em;
-    transition: background-color 0.2s ease, color 0.2s ease;
-    justify-content: flex-start; /* Align content to the left */
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+    justify-content: space-between;
+    border-bottom: 1px solid #f0f0f0;
 }
 .folder-item:hover {
-    background-color: #e5e5ea;
+    background-color: #f8f8f8;
 }
 .folder-item.active {
-    background-color: #007bff; /* Active folder is blue */
-    color: white;
-    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
-}
-.folder-item.active .folder-icon,
-.folder-item.active .folder-count,
-.folder-item.active .delete-folder-btn {
-    color: white; /* Ensure icons and counts are white in active state */
+    background-color: #000000;
+    color: #ffffff;
 }
 
-.folder-icon {
-    font-size: 1.1em;
-    margin-right: 10px;
-    color: #007bff;
-    font-weight: 500;
-}
 .folder-name {
-    flex-grow: 1; /* Take up available space */
+    flex-grow: 1;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-weight: 500;
+    font-weight: 400;
 }
 .folder-count {
-    font-size: 0.9em;
-    font-weight: 500;
-    margin-left: 10px;
-    color: #666;
-    background-color: rgba(0, 0, 0, 0.05);
+    font-size: 0.8em;
+    font-weight: 400;
+    margin-left: 12px;
+    color: #666666;
+    background-color: #f0f0f0;
     padding: 2px 8px;
-    border-radius: 12px;
+    border-radius: 0;
     min-width: 20px;
     text-align: center;
 }
 .folder-item.active .folder-count {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white;
+    background-color: #ffffff;
+    color: #000000;
 }
 .delete-folder-btn {
-    font-size: 0.9em;
-    margin-left: 15px;
-    color: #666;
+    font-size: 0.8em;
+    margin-left: 12px;
+    color: #666666;
     cursor: pointer;
     transition: color 0.2s ease;
-    padding: 2px; /* Make clickable area larger */
-    font-weight: bold;
+    padding: 4px;
+    font-weight: normal;
     width: 16px;
     height: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
+    border: 1px solid transparent;
 }
 .delete-folder-btn:hover {
-    color: #dc3545; /* Red on hover */
-    background-color: rgba(220, 53, 69, 0.1);
-}
-.folder-item.active .delete-folder-btn:hover {
-    color: #ffffff;
-    background-color: rgba(255, 255, 255, 0.2);
+    color: #000000;
+    border-color: #000000;
 }
 
 .add-new-folder-button {
-    background-color: #f8f9fa;
-    color: #1d1d1f;
-    border: 1px solid #d2d2d7;
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #000000;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 15px;
+    padding: 12px;
     width: 100%;
-    margin-top: 10px;
-    font-weight: 500;
+    margin-top: 12px;
+    font-weight: 400;
     transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.8em;
 }
 .add-new-folder-button:hover {
-    background-color: #e9ecef;
-    border-color: #adb5bd;
+    background-color: #000000;
+    color: #ffffff;
 }
 
 .add-folder-input-area {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px solid #eee;
+    gap: 12px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #000000;
 }
 .add-folder-input-area input {
     width: 100%;
 }
 .add-folder-input-area .create-folder-button {
-    background-color: #28a745;
+    background-color: #000000;
+    color: #ffffff;
     width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.8em;
 }
-.add-folder-input-area .create-folder-button:hover {
-    background-color: #218838;
-}
-
 
 /* --- Content Area (Right Side) --- */
 .content-area {
-    flex-grow: 1; /* Take all remaining space */
-    padding: 20px 40px;
+    flex-grow: 1;
+    padding: 24px 40px;
     display: flex;
     flex-direction: column;
+    background-color: #ffffff;
 }
 
 .api-key-status-bar {
-    background-color: #e7f3ff; /* Light blue for info */
-    border: 1px solid #b3d9ff;
-    color: #0c5aa6;
+    background-color: #f8f8f8;
+    border: 1px solid #000000;
+    color: #000000;
     padding: 12px 20px;
-    border-radius: 8px;
-    margin-bottom: 25px;
-    font-size: 0.95em;
+    border-radius: 0;
+    margin-bottom: 24px;
+    font-size: 0.9em;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 .api-key-status-bar a {
-    color: #0c5aa6;
-    font-weight: bold;
+    color: #000000;
+    font-weight: 500;
     text-decoration: underline;
-}
-.api-key-status-bar a:hover {
-    color: #084298;
 }
 
 .header-controls {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
+    margin-bottom: 24px;
     gap: 20px;
 }
 
 .search-bar {
     display: flex;
-    gap: 10px;
+    gap: 0;
     flex-grow: 1;
     max-width: 500px;
 }
 .search-bar input {
     flex-grow: 1;
-    width: auto; /* Override default width */
+    border-right: none;
     padding: 12px 16px;
-    font-size: 0.95em;
+    font-size: 0.9em;
 }
 .search-bar button {
-    background-color: #007bff;
-    color: white;
-    border: none;
+    background-color: #000000;
+    color: #ffffff;
+    border: 1px solid #000000;
     padding: 12px 16px;
-    min-width: 50px;
-}
-.search-bar button:hover {
-    background-color: #0056b3;
+    min-width: 80px;
+    border-radius: 0;
 }
 
 .view-options {
     display: flex;
-    border: 1px solid #d2d2d7;
-    border-radius: 6px;
+    border: 1px solid #000000;
+    border-radius: 0;
     overflow: hidden;
-    background-color: white;
+    background-color: #ffffff;
 }
 .view-toggle-button {
-    background-color: transparent;
-    color: #1d1d1f;
+    background-color: #ffffff;
+    color: #000000;
     border: none;
     border-radius: 0;
-    padding: 8px 15px;
-    font-weight: 500;
+    padding: 8px 16px;
+    font-weight: 400;
+    border-right: 1px solid #000000;
+}
+.view-toggle-button:last-child {
+    border-right: none;
 }
 .view-toggle-button.active {
-    background-color: #007bff;
-    color: white;
+    background-color: #000000;
+    color: #ffffff;
 }
 .view-toggle-button:hover:not(.active) {
-    background-color: #e5e5ea;
+    background-color: #f8f8f8;
 }
 
 .links-summary {
     font-size: 0.9em;
-    color: #666;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #e5e5ea;
-    font-weight: 500;
+    color: #666666;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #000000;
+    font-weight: 400;
 }
 
 .link-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); /* Responsive cards */
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 24px;
 }
 
 .link-card {
     background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    border: 1px solid #f0f0f0;
+    border-radius: 0;
+    box-shadow: none;
+    border: 1px solid #000000;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     transition: all 0.2s ease;
 }
 .link-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-    border-color: #e0e0e0;
+    box-shadow: 4px 4px 0 #000000;
+    transform: translate(-2px, -2px);
 }
 
 .link-card-content {
@@ -343,12 +333,13 @@ input[type="text"]:focus {
 }
 
 .link-image {
-    width: calc(100% + 40px); /* Extend beyond padding for full width image */
-    height: 180px;
+    width: calc(100% + 40px);
+    height: 160px;
     object-fit: cover;
-    margin: -20px -20px 16px -20px; /* Adjust to sit flush with card edges */
-    border-bottom: 1px solid #eee;
+    margin: -20px -20px 16px -20px;
+    border-bottom: 1px solid #000000;
     border-radius: 0;
+    filter: grayscale(100%);
 }
 
 .link-details {
@@ -359,48 +350,59 @@ input[type="text"]:focus {
 
 .link-title {
     font-size: 1.1em;
-    font-weight: 600;
+    font-weight: 500;
     margin-bottom: 8px;
-    color: #1d1d1f;
-    line-height: 1.4;
+    color: #000000;
+    line-height: 1.3;
     display: block;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-decoration: none;
 }
 .link-title:hover {
-    color: #007bff;
+    text-decoration: underline;
 }
 
 .link-url {
-    font-size: 0.85em;
-    color: #007bff;
+    font-size: 0.8em;
+    color: #666666;
     margin-bottom: 12px;
     display: block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-weight: 500;
-    background-color: #f8f9fa;
-    padding: 6px 10px;
-    border-radius: 6px;
-    border: 1px solid #e9ecef;
+    font-weight: 400;
+    background-color: #f8f8f8;
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    font-family: monospace;
+}
+
+.link-description {
+    font-size: 0.9em;
+    color: #666666;
+    margin-bottom: 12px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .link-meta-info {
     font-size: 0.8em;
-    color: #666;
+    color: #666666;
     margin-bottom: 12px;
     display: flex;
     align-items: center;
-    flex-wrap: wrap; /* Allow wrapping for many meta items */
-    gap: 4px; /* Space between meta items */
+    flex-wrap: wrap;
+    gap: 8px;
 }
 .meta-text {
-    vertical-align: middle;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .link-tags {
@@ -410,122 +412,141 @@ input[type="text"]:focus {
     gap: 8px;
 }
 .tag-pill {
-    background-color: #e7f3ff;
-    color: #0c5aa6;
-    padding: 4px 10px;
-    border-radius: 15px;
-    font-size: 0.8em;
-    font-weight: 500;
+    background-color: #f0f0f0;
+    color: #000000;
+    padding: 4px 8px;
+    border: 1px solid #000000;
+    border-radius: 0;
+    font-size: 0.7em;
+    font-weight: 400;
     white-space: nowrap;
-    border: 1px solid #b3d9ff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .link-actions {
-    margin-top: auto; /* Push actions to the bottom */
+    margin-top: auto;
     display: flex;
-    flex-wrap: wrap; /* Allow buttons to wrap */
+    flex-wrap: wrap;
     gap: 8px;
 }
 .link-actions button {
     flex: 1;
-    padding: 8px 10px;
-    font-size: 0.85em;
-    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.8em;
+    border-radius: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 500;
-    min-height: 36px;
+    font-weight: 400;
+    min-height: 32px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-/* Specific button colors */
 .link-actions .move-post-btn {
-    background-color: #6c757d; /* Gray */
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #000000;
 }
 .link-actions .move-post-btn:hover {
-    background-color: #5a6268;
+    background-color: #000000;
+    color: #ffffff;
 }
 .link-actions .add-tags-btn {
-    background-color: #007bff; /* Blue */
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #000000;
 }
 .link-actions .add-tags-btn:hover {
-    background-color: #0056b3;
+    background-color: #000000;
+    color: #ffffff;
 }
 .link-actions .delete-post-btn {
-    background-color: #dc3545; /* Red */
+    background-color: #000000;
+    color: #ffffff;
+    border: 1px solid #000000;
 }
 .link-actions .delete-post-btn:hover {
-    background-color: #c82333;
+    background-color: #ffffff;
+    color: #000000;
 }
 
-/* --- Initial Messages (No links, No folders) --- */
+/* --- Initial Messages --- */
 .initial-message, .no-ai-folders-message {
-    grid-column: 1 / -1; /* Span all columns in grid */
+    grid-column: 1 / -1;
     text-align: center;
-    font-size: 1.1em;
-    color: #666;
-    padding: 30px;
+    font-size: 1em;
+    color: #666666;
+    padding: 40px;
     background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    border: 1px solid #f0f0f0;
+    border: 1px solid #000000;
+    border-radius: 0;
 }
 
 /* --- Move To Dropdown --- */
 .move-to-dropdown {
-    position: absolute; /* Will be positioned by JS */
+    position: absolute;
     background-color: #ffffff;
-    border: 1px solid #d2d2d7;
-    border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    border: 1px solid #000000;
+    border-radius: 0;
+    box-shadow: 4px 4px 0 #000000;
     z-index: 1000;
     min-width: 180px;
-    padding: 10px;
+    padding: 12px;
 }
 .dropdown-header {
     font-weight: 500;
-    margin-bottom: 10px;
-    color: #1d1d1f;
-    padding-bottom: 5px;
-    border-bottom: 1px solid #eee;
+    margin-bottom: 12px;
+    color: #000000;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #000000;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.8em;
 }
 .dropdown-options {
     max-height: 200px;
     overflow-y: auto;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 .dropdown-option {
     display: block;
     width: 100%;
-    padding: 8px 10px;
+    padding: 8px 0;
     text-align: left;
     background-color: transparent;
     border: none;
-    color: #1d1d1f;
-    border-radius: 4px;
+    color: #000000;
+    border-radius: 0;
     transition: background-color 0.2s ease;
+    border-bottom: 1px solid #f0f0f0;
 }
 .dropdown-option:hover {
-    background-color: #e5e5ea;
+    background-color: #f8f8f8;
 }
 .dropdown-footer {
-    padding-top: 10px;
-    border-top: 1px solid #eee;
+    padding-top: 12px;
+    border-top: 1px solid #000000;
     text-align: right;
 }
 .dropdown-button {
-    background-color: #6c757d;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 0.9em;
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #000000;
+    padding: 6px 12px;
+    border-radius: 0;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 .dropdown-button:hover {
-    background-color: #5a6268;
+    background-color: #000000;
+    color: #ffffff;
 }
 .no-other-folders {
-    padding: 8px 10px;
-    color: #666;
+    padding: 12px 0;
+    color: #666666;
     font-style: italic;
     text-align: center;
     font-size: 0.9em;
@@ -538,7 +559,7 @@ input[type="text"]:focus {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -547,43 +568,52 @@ input[type="text"]:focus {
 
 .modal-content {
     background-color: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    padding: 32px;
+    border-radius: 0;
+    box-shadow: none;
+    border: 2px solid #000000;
     width: 400px;
     max-width: 90%;
-    text-align: center;
+    text-align: left;
 }
 .modal-content h3 {
     margin-bottom: 20px;
-    font-size: 1.5em;
+    font-size: 1.2em;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 .modal-content input {
     width: 100%;
     margin-bottom: 20px;
-    padding: 12px 16px;
+    padding: 12px;
 }
 .modal-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
+    gap: 12px;
 }
 .modal-actions button {
-    padding: 10px 20px;
+    padding: 8px 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.8em;
 }
 
 /* --- Keyboard Shortcut Styling --- */
 kbd {
-    background-color: #eee;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px white inset;
-    color: #333;
+    background-color: #f0f0f0;
+    border: 1px solid #000000;
+    border-radius: 0;
+    box-shadow: none;
+    color: #000000;
     display: inline-block;
     font-family: monospace;
-    font-size: 0.9em;
-    font-weight: 700;
+    font-size: 0.8em;
+    font-weight: 400;
     line-height: 1;
-    padding: 2px 4px;
+    padding: 4px 6px;
     white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }

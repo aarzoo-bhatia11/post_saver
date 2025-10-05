@@ -230,7 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
     allLinksBtn.classList.add('folder-item');
     if (currentSelectedFolder === 'All Links') allLinksBtn.classList.add('active');
     allLinksBtn.innerHTML = `
-      <span class="folder-icon">📁</span>
       <span class="folder-name">All Links</span>
       <span class="folder-count">${getAllPosts(folders).length}</span>
     `;
@@ -247,7 +246,6 @@ document.addEventListener('DOMContentLoaded', () => {
         button.classList.add('folder-item');
         if (currentSelectedFolder === folderName) button.classList.add('active');
         button.innerHTML = `
-          <span class="folder-icon">📁</span>
           <span class="folder-name">${folderName}</span>
           <span class="folder-count">${folders[folderName].length}</span>
           <span class="delete-folder-btn" data-folder-name="${folderName}">×</span>
@@ -337,9 +335,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (allPostsFlat.length > 0) {
             allPostsFlat.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
             const lastSavedDate = new Date(allPostsFlat[0].timestamp);
-            lastSavedTimeSpan.textContent = `Last saved: ${formatTimeAgo(lastSavedDate)}`;
+            lastSavedTimeSpan.textContent = `Last saved ${formatTimeAgo(lastSavedDate)}`;
         } else {
-            lastSavedTimeSpan.textContent = `Last saved: Never`;
+            lastSavedTimeSpan.textContent = `Last saved Never`;
         }
 
         postsToDisplay.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
@@ -369,9 +367,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div class="link-url">${post.url}</div>
                             ${description ? `<div class="link-description" style="font-size: 0.9em; color: #666; margin-bottom: 12px; line-height: 1.4;">${description}</div>` : ''}
                             <div class="link-meta-info">
-                                <span class="meta-text">Saved: ${formattedDate}</span>
-                                ${post.aiCategorized ? `<span class="meta-text">• AI Categorized</span>` : ''}
-                                <span class="meta-text">• ${viewsText}</span>
+                                <span class="meta-text">Saved ${formattedDate}</span>
+                                ${post.aiCategorized ? `<span class="meta-text">AI Categorized</span>` : ''}
+                                <span class="meta-text">${viewsText}</span>
                             </div>
                             <div class="link-tags">
                                 ${post.tags && post.tags.length > 0 ? post.tags.map(tag => `<span class="tag-pill">${tag}</span>`).join('') : ''}
@@ -396,7 +394,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             const message = currentSearchTerm ? 
                 `No links found matching "${currentSearchTerm}". Try a different search term.` :
-                `No links in "${currentSelectedFolder}". Copy a link and press <kbd>Ctrl+Shift+L</kbd> (Windows) or <kbd>Cmd+Shift+L</kbd> (Mac) to save.`;
+                `No links saved yet. Copy a link and press Ctrl+Shift+L (Windows) or Cmd+Shift+L (Mac) to save.`;
             postsContainer.innerHTML = `<p class="initial-message">${message}</p>`;
             if (Object.keys(folders).length === 0) {
                  noAIFoldersMessage.style.display = 'block';
